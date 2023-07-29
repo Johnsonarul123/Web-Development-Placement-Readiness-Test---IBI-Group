@@ -1,0 +1,13 @@
+The output of the code will be:
+
+1
+4
+2
+3
+
+Explaination:
+ the code logs the numbers 1 and 4 to the console immediately. 
+ Then, it schedules the execution of two functions, printNumber(2) and printNumber(3), using setTimeout.
+ Despite the setTimeout delay being 0 milliseconds for printNumber(2), 
+ it will still be executed after printNumber(3) because of the JavaScript event loop.
+So, the final output sequence is 1, 4, 2, and 3.
