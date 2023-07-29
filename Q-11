@@ -1,0 +1,32 @@
+ The `reduce` method is missing the initial value (accumulator). 
+ The initial value for the accumulator should be an object with properties `evens` and `odds` as empty arrays. Otherwise, the code will throw an error because `acc` will be `undefined` after the first iteration.
+
+Here's the fixed code with the initial value provided:
+
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+
+const result = numbers.reduce((acc, num) => {
+  if (num % 2 === 0) {
+    acc.evens.push(num);
+  } else {
+    acc.odds.push(num);
+  }
+  return acc;
+}, { evens: [], odds: [] });
+
+console.log(result);
+```
+
+Output:
+```
+{ evens: [2, 4], odds: [1, 3, 5] }
+```
+
+Explanation:
+- The `reduce` method iterates over the `numbers` array and uses the provided callback function to accumulate the values into the `acc` object.
+- For each number in the array, the code checks if it's even or odd using the modulo operator `%`.
+- If the number is even, it pushes it into the `evens` array of the accumulator (`acc`).
+- If the number is odd, it pushes it into the `odds` array of the accumulator (`acc`).
+- After the iterations are completed, the `reduce` method returns the final value of the accumulator (`acc`).
+- The final output is an object containing two properties, `evens` and `odds`, with arrays containing the even and odd numbers from the original `numbers` array, respectively.
