@@ -1,0 +1,75 @@
+//  What is promise chaining? Explain with an example.
+
+ Answer-
+//  Promise chaining is a technique used in JavaScript to perform a series of asynchronous operations in a sequential and readable manner. It involves chaining multiple promises together, where the result of one promise is used as an input for the next one, forming a chain of operations.
+
+// Here's an example to illustrate promise chaining:
+
+// Let's say we have a function that simulates an asynchronous operation that fetches user data from a server with a delay using `setTimeout`. We want to fetch user details, then fetch their posts, and finally, fetch comments for each post. We'll use promises to handle these asynchronous operations:
+
+
+// Simulated asynchronous functions
+function fetchUserData() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const userData = { id: 1, name: 'John Doe' };
+      resolve(userData);
+    }, 1000);
+  });
+}
+
+function fetchUserPosts(userId) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const posts = [
+        { id: 101, title: 'Post 1', userId: userId },
+        { id: 102, title: 'Post 2', userId: userId },
+      ];
+      resolve(posts);
+    }, 1500);
+  });
+}
+
+function fetchPostComments(postId) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const comments = [
+        { id: 201, text: 'Comment 1', postId: postId },
+        { id: 202, text: 'Comment 2', postId: postId },
+      ];
+      resolve(comments);
+    }, 2000);
+  });
+}
+
+// Promise chaining example
+fetchUserData()
+  .then((userData) => {
+    console.log('User Data:', userData);
+    return fetchUserPosts(userData.id);
+  })
+  .then((userPosts) => {
+    console.log('User Posts:', userPosts);
+    const postIds = userPosts.map((post) => post.id);
+    const fetchCommentPromises = postIds.map(fetchPostComments);
+    return Promise.all(fetchCommentPromises);
+  })
+  .then((allComments) => {
+    console.log('All Comments:', allComments);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+
+
+// In this example:
+// 1. We start by calling `fetchUserData()`, which returns a promise.
+// 2. Using `.then()`, we access the resolved value of the previous promise (userData) and call `fetchUserPosts(userData.id)`, returning another promise.
+// 3. Using another `.then()`, we access the resolved value of the previous promise (userPosts) and create an array of postIds.
+// 4. We use `.map()` to create an array of promises, where each promise corresponds to fetching comments for a post using `fetchPostComments(postId)`.
+// 5. We then use `Promise.all()` to wait for all the promises to resolve and get an array of arrays containing comments for each post.
+// 6. Finally, we access the resolved value of the last promise (allComments) and log the results to the console.
+
+// Promise chaining allows us to perform a sequence of asynchronous operations in a clean and organized manner, 
+// making it easier to handle complex async flows. Each `.then()` in the chain receives the resolved value of the previous promise, 
+// and we can continue the chain by returning a new promise or a value. If any error occurs in any of the promises, we can catch it using `.catch()` at the end of the chain.
