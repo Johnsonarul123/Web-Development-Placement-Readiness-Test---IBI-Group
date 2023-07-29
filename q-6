@@ -1,0 +1,108 @@
+What is callback hell? Explain different ways to solve callback hell with examples each.
+
+Solution:
+// Callback hell, also known as the pyramid of doom, 
+// is a situation in asynchronous JavaScript programming 
+// where multiple nested callbacks lead to complex and hard-to-read code. 
+// This occurs when callbacks are used to handle asynchronous operations sequentially, 
+// resulting in deeply nested code structures that become difficult to maintain and understand.
+
+// To solve callback hell, several techniques have emerged to improve code readability and maintainability:
+
+// 1- Using Named Functions:
+// Instead of anonymous functions, use named functions for each callback. 
+// This helps in breaking down the nesting and improves code readability.
+
+function step1(callback) {
+  // Asynchronous operation
+  callback();
+}
+
+function step2(callback) {
+  // Asynchronous operation
+  callback();
+}
+
+function step3() {
+  // Asynchronous operation
+}
+
+step1(() => {
+  step2(() => {
+    step3();
+  });
+});
+
+// 2- Using Promises:
+// Promises provide a cleaner and more structured way to handle asynchronous operations, 
+// avoiding callback hell. Each step in the chain returns a promise, 
+// and you can use .then() to chain them.
+
+function step1() {
+  return new Promise((resolve) => {
+    // Asynchronous operation
+    resolve();
+  });
+}
+
+function step2() {
+  return new Promise((resolve) => {
+    // Asynchronous operation
+    resolve();
+  });
+}
+
+function step3() {
+  return new Promise((resolve) => {
+    // Asynchronous operation
+    resolve();
+  });
+}
+
+step1()
+  .then(() => step2())
+  .then(() => step3());
+
+// 3- Using Async/Await:
+// Async/await is a modern syntax that allows you to 
+// write asynchronous code in a more synchronous-looking manner. 
+// It provides a cleaner and more sequential flow of code, making it easier to read and understand.
+
+function step1() {
+  return new Promise((resolve) => {
+    // Asynchronous operation
+    resolve();
+  });
+}
+
+function step2() {
+  return new Promise((resolve) => {
+    // Asynchronous operation
+    resolve();
+  });
+}
+
+function step3() {
+  return new Promise((resolve) => {
+    // Asynchronous operation
+    resolve();
+  });
+}
+
+async function doSteps() {
+  await step1();
+  await step2();
+  await step3();
+}
+
+doSteps();
+
+// By using named functions, 
+// promises, or async/await, you can effectively avoid callback hell 
+// and write more structured, readable, and maintainable asynchronous code. 
+// These techniques improve code organization and make it easier to follow the flow of the program, 
+// especially when handling multiple asynchronous operations.
+
+
+
+
